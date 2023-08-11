@@ -21,4 +21,16 @@ public class MenuService {
         return playerList;
 
     }
+
+    public List<TeamDTO> selectAllTeam() {
+
+        SqlSession sqlSession = getSqlSession();
+
+        menuMapper = sqlSession.getMapper(MenuMapper.class);
+        List<TeamDTO> teamList = menuMapper.selectAllTeam();
+
+        sqlSession.close();
+
+        return teamList;
+    }
 }

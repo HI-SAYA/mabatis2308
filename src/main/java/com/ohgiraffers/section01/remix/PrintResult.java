@@ -13,4 +13,8 @@ public class PrintResult {
 
     public void printErrorMessage(String errorCode) {
     }
+
+    public void printTeamList(List<TeamDTO> teamList) {
+        teamList.forEach(System.out::println);
+    }
 }

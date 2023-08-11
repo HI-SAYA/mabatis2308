@@ -6,21 +6,15 @@ public class PlayerDTO {
     private int playerNo;
     private String playerName;
     private String teamName;
-    private int teamCode;
-    private int leagueCode;
-    private String starter;
 
     public PlayerDTO() {
     }
 
-    public PlayerDTO(int playerCode, int playerNo, String playerName, String teamName, int teamCode, int leagueCode, String starter) {
+    public PlayerDTO(int playerCode, int playerNo, String playerName, String teamName) {
         this.playerCode = playerCode;
         this.playerNo = playerNo;
         this.playerName = playerName;
         this.teamName = teamName;
-        this.teamCode = teamCode;
-        this.leagueCode = leagueCode;
-        this.starter = starter;
     }
 
     public int getPlayerCode() {
@@ -55,30 +49,6 @@ public class PlayerDTO {
         this.teamName = teamName;
     }
 
-    public int getTeamCode() {
-        return teamCode;
-    }
-
-    public void setTeamCode(int teamCode) {
-        this.teamCode = teamCode;
-    }
-
-    public int getLeagueCode() {
-        return leagueCode;
-    }
-
-    public void setLeagueCode(int leagueCode) {
-        this.leagueCode = leagueCode;
-    }
-
-    public String getStarter() {
-        return starter;
-    }
-
-    public void setStarter(String starter) {
-        this.starter = starter;
-    }
-
     @Override
     public String toString() {
         return "PlayerDTO{" +
@@ -86,9 +56,7 @@ public class PlayerDTO {
                 ", playerNo=" + playerNo +
                 ", playerName='" + playerName + '\'' +
                 ", teamName='" + teamName + '\'' +
-                ", teamCode=" + teamCode +
-                ", leagueCode=" + leagueCode +
-                ", starter='" + starter + '\'' +
                 '}';
     }
 }
+
