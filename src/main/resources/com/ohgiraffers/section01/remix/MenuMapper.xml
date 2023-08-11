@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ohgiraffers.section01.remix.MenuMapper">
+    <resultMap id="playerResultMap" type="com.ohgiraffers.section01.remix.PlayerDTO">
+        <id property="playerCode" column="PLAYER_CODE"/> <!-- PK 속성 -->
+        <result property="playerNo" column="PLAYER_NO"/>
+        <result property="playerName" column="PLAYER_NAME"/>
+        <result property="teamName" column="TEAM_NAME"/>
+        <result property="teamCode" column="TEAM_CODE"/>
+        <result property="leagueCode" column="LEAGUE_CODE"/>
+        <result property="starter" column="STARTER"/>
+    </resultMap>
+
+    <select id="selectAllPlayer" resultMap="playerResultMap">
+        SELECT
+        PLAYER_CODE
+        , PLAYER_NO
+        , PLAYER_NAME
+        , TEAM_NAME
+        , TEAM_CODE
+        , LEAGUE_CODE
+        , STARTER
+        FROM TBL_PLAYER
+        WHERE STARTER = 'Y'
+        ORDER BY PLAYER_CODE
+    </select>
+
+</mapper>
