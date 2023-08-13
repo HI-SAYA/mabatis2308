@@ -110,23 +110,42 @@
         WHERE PLAYER_CODE = #{ playerCode }
     </delete>
 
-    <typeAliases>
-        <typeAlias type="com.ohgiraffers.section01.common.SearchCriteria" alias="SearchCriteria"/>
-    </typeAliases>
-<!--
-    <select id="searchLeague" parameterType="com.ohgiraffers.section01.common.TeamDTO">
+
+    <select id="searchLeague"  resultMap="teamResultMap" parameterType="SearchCriteria">
         SELECT
         TEAM_CODE
         , TEAM_NAME
         , LEAGUE_CODE
         , LEAGUE_NAME
         FROM TBL_TEAM
+        WHERE 1=1
         <choose>
+            <when test="value == '프리미어리그'">
+                AND LEAGUE_CODE IN (1)
+            </when>
             <when test="value == '라리가'">
                 AND LEAGUE_CODE IN (2)
             </when>
-            <when test="value == '프리미어리그'">
-                AND LEAGUE_CODE IN (1)
+            <when test="value == '세리에A'">
+                AND LEAGUE_CODE IN (3)
+            </when>
+            <when test="value == '분데스리가'">
+                AND LEAGUE_CODE IN (4)
+            </when>
+            <when test="value == '리그1'">
+                AND LEAGUE_CODE IN (5)
+            </when>
+            <when test="value == '프리메이라리가'">
+                AND LEAGUE_CODE IN (6)
+            </when>
+            <when test="value == '에레디비시'">
+                AND LEAGUE_CODE IN (7)
+            </when>
+            <when test="value == '벨기에프로리그'">
+                AND LEAGUE_CODE IN (8)
+            </when>
+            <when test="value == '오스트리아분데스리가'">
+                AND LEAGUE_CODE IN (9)
             </when>
             <otherwise>
                 AND LEAGUE_CODE IN (10)
@@ -134,5 +153,4 @@
         </choose>
         ORDER BY LEAGUE_CODE
     </select>
-    -->
 </mapper>

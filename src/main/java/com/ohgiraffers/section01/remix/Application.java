@@ -73,8 +73,8 @@ public class Application {
             int no = sc.nextInt();
 
             switch (no) {
-                case 1 : menuService.searchMenu(inputSearchCriteria());
-                case 2 : menuService.searchLeague(inputsSupLeague());
+                case 1 : menuService.searchMenu(inputSearchCriteria()); break;
+                case 2 : menuService.searchLeague(inputsSupLeague()); break;
                 case 9 : return;
             }
         } while (true);
@@ -162,12 +162,12 @@ public class Application {
 
     private static SearchCriteria inputsSupLeague() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("=== 라리가-2, 분데스리가, 프리미어리그-1, 세리에A, 리그1 ===");
-        System.out.println("=== 프리메리아리가, 에레디비시, 벨기에프로리그, 오스트리아분데스리가 ===");
+        System.out.println("=== 라리가, 분데스리가, 프리미어리그, 세리에A, 리그1, 프리메리아리가 ===");
+        System.out.println("=== 에레디비시, 벨기에프로리그, 오스트리아분데스리가, 스코티시프리미어십 ===");
         System.out.print("조회할 리그 명을 입력해주세요 : ");
         String value = sc.nextLine();
 
-        return new SearchCriteria("leagueCode", value);
+        return new SearchCriteria("leagueName", value);
 
     }
 

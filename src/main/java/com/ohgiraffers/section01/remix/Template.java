@@ -1,6 +1,7 @@
 package com.ohgiraffers.section01.remix;
 
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
+import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
@@ -8,33 +9,29 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 public class Template {
 
-
-    private static String DRIVER = "oracle.jdbc.driver.OracleDriver";
-    private static String URL = "jdbc:oracle:thin:@localhost:1521:xe";
-    private static String USER = "C##CHAMPIONS";
-    private static String PASSWORD = "CHAMPIONS";
-
     private static SqlSessionFactory sqlSessionFactory;     // null 상태
+
     public static SqlSession getSqlSession() {
 
-        if(sqlSessionFactory == null) {     // 첫 생성에만 if문이 작동하도록 한다.
-            Environment environment = new Environment("dev",
-                    new JdbcTransactionFactory(),
-                    new PooledDataSource(DRIVER, URL, USER, PASSWORD));
+        if (sqlSessionFactory == null) {
 
-            Configuration configuration = new Configuration(environment);
+            String resource = "xmlconfig/mybatis-config.xml";
 
-            configuration.addMapper(MenuMapper.class); // MenuMapper의 클래스 정보를 전달한다.
-
-            sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-            // 설정 정보를 전달하면서 빌드를 호출하면 sqlSessionFactory를 만든다.
+            try {
+                InputStream inputStream = Resources.getResourceAsStream(resource);
+                sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
         }
 
-        SqlSession sqlSession = sqlSessionFactory.openSession(false);       // DB 연결
-
-        return sqlSession;
+        return sqlSessionFactory.openSession(false);
     }
+
 }

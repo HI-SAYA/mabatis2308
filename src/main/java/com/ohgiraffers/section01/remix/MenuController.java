@@ -34,7 +34,7 @@ public class MenuController {
         if(playerList != null) {
             printResult.printPlayerList(playerList);
         } else {
-            printResult.printErrorMessage("selectone");
+            printResult.printErrorMessage("selectList");
         }
     }
 
