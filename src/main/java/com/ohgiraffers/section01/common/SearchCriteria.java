@@ -1,4 +1,4 @@
-package com.ohgiraffers.section01.remix;
+package com.ohgiraffers.section01.common;
 
 public class SearchCriteria {
 

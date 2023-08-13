@@ -13,8 +13,8 @@ public class Template {
 
     private static String DRIVER = "oracle.jdbc.driver.OracleDriver";
     private static String URL = "jdbc:oracle:thin:@localhost:1521:xe";
-    private static String USER = "C##OHGIRAFFERS";
-    private static String PASSWORD = "OHGIRAFFERS";
+    private static String USER = "C##CHAMPIONS";
+    private static String PASSWORD = "CHAMPIONS";
 
     private static SqlSessionFactory sqlSessionFactory;     // null 상태
     public static SqlSession getSqlSession() {

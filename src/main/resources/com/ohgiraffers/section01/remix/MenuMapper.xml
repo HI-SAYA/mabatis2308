@@ -3,29 +3,136 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+
 <mapper namespace="com.ohgiraffers.section01.remix.MenuMapper">
-    <resultMap id="playerResultMap" type="com.ohgiraffers.section01.remix.MenuMapper">
-        <id property="playerCode" column="PLAYER_CODE"/> <!-- PK 속성 -->
-        <result property="playerNo" column="PLAYER_NO"/>
-        <result property="playerName" column="PLAYER_NAME"/>
+
+
+    <!-- teamResultMap -->
+    <resultMap id="teamResultMap" type="com.ohgiraffers.section01.common.TeamDTO">
+        <id property="teamCode" column="TEAM_CODE"/>
         <result property="teamName" column="TEAM_NAME"/>
-        <result property="teamCode" column="TEAM_CODE"/>
         <result property="leagueCode" column="LEAGUE_CODE"/>
-        <result property="starter" column="STARTER"/>
+        <result property="leagueName" column="LEAGUE_NAME"/>
     </resultMap>
 
-    <select id="selectAllPlayer" parameterType="com.ohgiraffers.section01.remix.PlayerDTO" resultMap="playerResultMap">
+
+    <select id="selectAllTeam" resultMap="teamResultMap">
+        SELECT
+        TEAM_CODE
+        , TEAM_NAME
+        , LEAGUE_CODE
+        , LEAGUE_NAME
+        FROM TBL_TEAM
+        ORDER BY TEAM_CODE
+    </select>
+
+
+    <!-- playerResultMap -->
+    <resultMap id="playerResultMap" type="com.ohgiraffers.section01.common.PlayerDTO">
+        <id property="playerCode" column="PLAYER_CODE"/>
+        <result property="playerNo" column="PLAYER_NO"/>
+        <result property="playerName" column="PLAYER_NAME"/>
+        <result property="teamCode" column="TEAM_CODE"/>
+        <result property="teamName" column="TEAM_NAME"/>
+        <result property="leagueName" column="LEAGUE_NAME"/>
+    </resultMap>
+
+    <select id="selectAllPlayer" resultMap="playerResultMap">
         SELECT
         PLAYER_CODE
         , PLAYER_NO
         , PLAYER_NAME
         , TEAM_NAME
-        , TEAM_CODE
-        , LEAGUE_CODE
-        , STARTER
+        , LEAGUE_NAME
         FROM TBL_PLAYER
-
         ORDER BY PLAYER_CODE
     </select>
 
+    <select id="searchMenu" resultMap="playerResultMap">
+        SELECT
+        PLAYER_CODE
+        , PLAYER_NO
+        , PLAYER_NAME
+        , TEAM_NAME
+        , LEAGUE_NAME
+        FROM TBL_PLAYER
+        <choose>
+            <when test="condition == 'team'">
+                WHERE TEAM_NAME LIKE '%' || #{ value } || '%'
+            </when>
+            <otherwise>
+                WHERE 1=1
+                <if test="condition == 'player'">
+                    AND PLAYER_NAME = #{value}
+                </if>
+            </otherwise>
+        </choose>
+        ORDER BY PLAYER_CODE
+    </select>
+
+    <insert id="insertPlayer" parameterType="com.ohgiraffers.section01.common.PlayerDTO">
+        INSERT
+        INTO TBL_PLAYER
+        (
+        PLAYER_CODE
+        , PLAYER_NO
+        , PLAYER_NAME
+        , TEAM_CODE
+        , TEAM_NAME
+        , LEAGUE_NAME
+        )
+        VALUES
+        (
+        SEQ_PLAYER_CODE.NEXTVAL
+        , #{ playerNo }
+        , #{ playerName }
+        , #{ teamCode }
+        , #{ teamName }
+        , #{ leagueName }
+        )
+    </insert>
+
+    <update id="updatePlayer" parameterType="com.ohgiraffers.section01.common.PlayerDTO">
+        UPDATE
+        TBL_PLAYER
+        SET PLAYER_CODE = #{ playerCode }
+        , PLAYER_NO = #{ playerNo }
+        , PLAYER_NAME = #{ playerName }
+        , TEAM_CODE = #{ teamCode }
+        , TEAM_NAME = #{ teamName }
+        , LEAGUE_NAME = #{ leagueName }
+        WHERE PLAYER_CODE = #{ playerCode }
+    </update>
+
+    <delete id="deletePlayer" parameterType="_int">
+        DELETE
+        FROM TBL_PLAYER
+        WHERE PLAYER_CODE = #{ playerCode }
+    </delete>
+
+    <typeAliases>
+        <typeAlias type="com.ohgiraffers.section01.common.SearchCriteria" alias="SearchCriteria"/>
+    </typeAliases>
+<!--
+    <select id="searchLeague" parameterType="com.ohgiraffers.section01.common.TeamDTO">
+        SELECT
+        TEAM_CODE
+        , TEAM_NAME
+        , LEAGUE_CODE
+        , LEAGUE_NAME
+        FROM TBL_TEAM
+        <choose>
+            <when test="value == '라리가'">
+                AND LEAGUE_CODE IN (2)
+            </when>
+            <when test="value == '프리미어리그'">
+                AND LEAGUE_CODE IN (1)
+            </when>
+            <otherwise>
+                AND LEAGUE_CODE IN (10)
+            </otherwise>
+        </choose>
+        ORDER BY LEAGUE_CODE
+    </select>
+    -->
 </mapper>

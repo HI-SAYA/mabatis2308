@@ -1,11 +1,10 @@
 package com.ohgiraffers.section01.remix;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.session.SqlSession;
+import com.ohgiraffers.section01.common.PlayerDTO;
+import com.ohgiraffers.section01.common.TeamDTO;
 
 import java.util.List;
-
-import static com.ohgiraffers.section01.remix.Template.getSqlSession;
+import java.util.Map;
 
 public class MenuController {
 
@@ -33,26 +32,69 @@ public class MenuController {
         List<PlayerDTO> playerList = menuService.selectAllPlayer();
 
         if(playerList != null) {
-            printResult.printMenuList(playerList);
+            printResult.printPlayerList(playerList);
         } else {
-            printResult.printErrorMessage("selectList");
+            printResult.printErrorMessage("selectone");
         }
     }
 
+    public void registPlayer(Map<String, String> parameter) {
 
-    public void searchName(SearchCriteria searchCriteria) {
+        int playerNo = Integer.parseInt(parameter.get("playerNo"));
+        String playerName = parameter.get("playerName");
+        int teamCode = Integer.parseInt(parameter.get("teamCode"));
+        String teamName = parameter.get("teamName");
+        String leagueName = parameter.get("leagueName");
 
-        SqlSession sqlSession = getSqlSession();
-        mapper = sqlSession.getMapper(MenuMapper.class);
+        PlayerDTO player = new PlayerDTO();
+        player.setPlayerNo(playerNo);
+        player.setPlayerName(playerName);
+        player.setTeamCode(teamCode);
+        player.setTeamName(teamName);
+        player.setLeagueName(leagueName);
 
-        List<TeamDTO> teamList = mapper.searchName(searchCriteria);
-
-        if(teamList != null && teamList.size() > 0) {
-            teamList.forEach(System.out::println);
+        if(menuService.registPlayer(player)) {
+            printResult.printSuccessMessage("insert");
         } else {
-            printResult.printErrorMessage("searchName");
+            printResult.printErrorMessage("insert");
         }
 
-        sqlSession.close();
+    }
+
+    public void modifyPlayer(Map<String, String> parameter) {
+        int playerCode = Integer.parseInt(parameter.get("playerCode"));
+        int playerNo = Integer.parseInt(parameter.get("playerNo"));
+        String playerName = parameter.get("playerName");
+        int teamCode = Integer.parseInt(parameter.get("teamCode"));
+        String teamName = parameter.get("teamName");
+        String leagueName = parameter.get("leagueName");
+
+        PlayerDTO player = new PlayerDTO();
+        player.setPlayerCode(playerCode);
+        player.setPlayerNo(playerNo);
+        player.setPlayerName(playerName);
+        player.setTeamCode(teamCode);
+        player.setTeamName(teamName);
+        player.setLeagueName(leagueName);
+
+        if(menuService.modifyPlayer(player)) {
+            printResult.printSuccessMessage("update");
+        } else {
+            printResult.printErrorMessage("update");
+        }
+    }
+
+    public void deletePlayer(Map<String, String> parameter) {
+        int playerCode = Integer.parseInt(parameter.get("playerCode"));
+
+        PlayerDTO player = new PlayerDTO();
+        player.setPlayerCode(playerCode);
+
+        if(menuService.deletePlayer(player)) {
+            printResult.printSuccessMessage("delete");
+        } else {
+            printResult.printErrorMessage("delete");
+        }
+
     }
 }
