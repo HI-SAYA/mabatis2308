@@ -1,3 +1,6 @@
+
+/* 22-23 챔피언스 리그 팀 선수 명단 관리
+* 23-24 업뎃 가능 */
 package com.ohgiraffers.section01.remix;
 
 import com.ohgiraffers.section01.common.SearchCriteria;
